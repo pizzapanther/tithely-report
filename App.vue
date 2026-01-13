@@ -1,7 +1,22 @@
 <template>
-  <h1>Tithe.ly Better Reporting</h1>
+  <div class="header flex">
+    <h1>Service Report</h1>
+    <div v-if="rdate">{{rdate}}</div>
+  </div>
   <form>
     <fieldset>
+      <div class="grid">
+        <div>
+          <label>
+            Report Date
+            <input id="rdate" type="date" name="rdate" placeholder="Report Date" v-on:change="update()"/>
+          </label>
+        </div>
+        <div>
+          Counters (one per line)
+          <textarea name="counters" id="counters" v-on:change="update_counters()"></textarea>
+        </div>
+      </div>
       <label>
         <span>CSV File</span>
         <br>
@@ -13,11 +28,11 @@
       </label>
     </fieldset>
   </form>
-  <ReportSummary :stats="stats"/>
+  <ReportSummary :stats="stats" :counters="counters"/>
   <ReportTransactions :transactions="rows"/>
 </template>
 <script setup>
-import {ref} from 'vue';
+import {ref, onMounted} from 'vue';
 import * as Papa from 'papaparse';
 
 import ReportSummary from './Summary.vue';
@@ -30,6 +45,16 @@ const REQUIRED_FIELDS = [
 
 const rows = ref(null);
 const stats = ref(null);
+const rdate = ref(null);
+const counters = ref([]);
+
+onMounted(() => {
+  const now = new Date();
+  const d = document.getElementById("rdate");
+  d.value = now.toISOString().split('T')[0];
+  rdate.value = now.toDateString();
+});
+
 
 function error (e) {
   alert('Error parsing CSV');
@@ -133,4 +158,34 @@ function process() {
   Papa.parse(csv_file.files[0], {complete, error});
 }
 
+function update() {
+  const d = document.getElementById("rdate");
+  if (d.value) {
+    const dt = new Date(d.value);
+    rdate.value = dt.toDateString();
+  }
+}
+
+function update_counters() {
+  const c = document.getElementById("counters");
+  if (c.value) {
+    counters.value = c.value.split("\n");
+  } else {
+    counters.value = [];
+  }
+}
+
 </script>
+<style scoped>
+  h1 {
+    font-size: 24px;
+    flex: 1;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .header {
+    border-bottom: 2px var(--pico-table-border-color) solid;
+    margin-bottom: 15px;
+  }
+</style>

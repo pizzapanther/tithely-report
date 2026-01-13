@@ -46,8 +46,24 @@
         </tr>
       </tfoot>
     </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Counters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <ul>
+              <li v-for="c in props.counters">{{c}}</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script setup>
-  const props = defineProps(['stats']);
+  const props = defineProps(['stats', 'counters']);
 </script>

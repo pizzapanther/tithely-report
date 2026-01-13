@@ -1,3 +1,11 @@
 span.help {
   font-size: 80%;
 }
+
+.flex {
+  display: flex;
+}
+
+.grid > div {
+  max-width: 300px;
+}
