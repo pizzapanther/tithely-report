@@ -13,48 +13,23 @@
       </label>
     </fieldset>
   </form>
-  <table>
-    <thead>
-      <tr>
-        <th>Name/Funds</th>
-        <th>Type/Check #</th>
-        <th>$ Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="row in rows">
-        <td>
-          <strong>{{row['fullname']}}</strong>
-          <br>
-          <div class="funds">
-            <div v-for="(value, cat) in row['cats']">
-              {{cat}}: ${{value.toFixed(2)}}
-            </div>
-          </div>
-        </td>
-        <td>
-          {{row['Payment Type']}}
-          <div v-if="row['Payment Type'] === 'check'">
-            # {{row['Check #']}}
-          </div>
-        </td>
-        <td>
-          {{row['total'].toFixed(2)}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <ReportSummary :stats="stats"/>
+  <ReportTransactions :transactions="rows"/>
 </template>
 <script setup>
 import {ref} from 'vue';
 import * as Papa from 'papaparse';
+
+import ReportSummary from './Summary.vue';
+import ReportTransactions from './Transactions.vue';
 
 const REQUIRED_FIELDS = [
   'Currency Code', 'First Name', 'Last Name', 'Net Amount',
   'Fees', 'Status', 'Covered Fees', 'Fund Name', 'Payment Type', 'Check #'
 ];
 
-const rows = ref([]);
+const rows = ref(null);
+const stats = ref(null);
 
 function error (e) {
   alert('Error parsing CSV');
@@ -65,7 +40,15 @@ function map_rows(rows) {
   const headers = rows[0];
   let data = rows.slice(1);
   const mapped = {};
-  const stats = {};
+  const stats = {
+    cash: 0,
+    check: 0,
+    online: 0,
+    fees: 0,
+    covered: 0,
+    total: 0,
+    funds: {},
+  };
 
   for (let i=0; i < data.length; i++) {
     const d = data[i];
@@ -79,6 +62,28 @@ function map_rows(rows) {
     if (row['Net Amount']) {
       row['Net Amount'] = parseFloat(row['Net Amount']);
       row['fullname'] = `${row['Last Name']}, ${row['First Name']}`;
+
+      stats.fees +=  parseFloat(row['Fees']);
+      if (row['Covered Fees']) {
+        stats.covered +=  parseFloat(row['Fees']);
+      }
+
+      if (row['Payment Type'] === 'cash') {
+        stats.cash += row['Net Amount'];
+      } else if (row['Payment Type'] === 'check') {
+        stats.check += row['Net Amount'];
+      } else {
+        stats.online += row['Net Amount'];
+      }
+
+      stats.total += row['Net Amount'];
+
+      if (stats.funds?.[row['Fund Name']]) {
+        stats.funds[row['Fund Name']] += row['Net Amount'];
+      } else {
+        stats.funds[row['Fund Name']] = row['Net Amount'];
+      }
+
       const key = `${row['Last Name']}, ${row['First Name']} ${row['Payment Type']} ${row['Check #']}`;
 
       if (mapped?.[key]) {
@@ -118,8 +123,9 @@ function complete(results) {
     }
   }
 
-  const [rlist, stats] = map_rows(results.data);
+  const [rlist, rstats] = map_rows(results.data);
   rows.value = rlist;
+  stats.value = rstats;
 }
 
 function process() {
