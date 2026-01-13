@@ -1,0 +1,26 @@
+{
+  "name": "tithely-report",
+  "version": "1.0.0",
+  "description": "Better Tithe.ly report generator",
+  "homepage": "https://github.com/pizzapanther/tithely-report#readme",
+  "bugs": {
+    "url": "https://github.com/pizzapanther/tithely-report/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pizzapanther/tithely-report.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Paul Bailey",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "^6.0.3",
+    "vite": "^7.3.1",
+    "vue": "^3.5.26"
+  }
+}
