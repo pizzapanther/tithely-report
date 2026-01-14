@@ -29,7 +29,8 @@
     </fieldset>
   </form>
   <ReportSummary :stats="stats" :counters="counters"/>
-  <ReportTransactions :transactions="rows"/>
+  <hr>
+  <ReportTransactions :col1="rows1" :col2="rows2"/>
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';
@@ -43,15 +44,24 @@ const REQUIRED_FIELDS = [
   'Fees', 'Status', 'Covered Fees', 'Fund Name', 'Payment Type', 'Check #'
 ];
 
-const rows = ref(null);
+const rows1 = ref(null);
+const rows2 = ref(null);
 const stats = ref(null);
 const rdate = ref(null);
 const counters = ref([]);
 
+function pad(n) {
+  return String(n).padStart(2, '0');
+}
+
+function dateString(dt) {
+  return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`;
+}
+
 onMounted(() => {
   const now = new Date();
   const d = document.getElementById("rdate");
-  d.value = now.toISOString().split('T')[0];
+  d.value = dateString(now);
   rdate.value = now.toDateString();
 });
 
@@ -131,12 +141,22 @@ function map_rows(rows) {
   const keys = Object.keys(mapped);
   keys.sort();
 
-  const ret = [];
-  keys.forEach((k) => {
-    ret.push(mapped[k]);
+  const ret1 = [];
+  const ret2 = [];
+
+  const halfi = Math.ceil(keys.length / 2);
+  const keys1 = keys.slice(0, halfi);
+  const keys2 = keys.slice(halfi);
+
+  keys1.forEach((k) => {
+    ret1.push(mapped[k]);
   });
 
-  return [ret, stats];
+  keys2.forEach((k) => {
+    ret2.push(mapped[k]);
+  });
+
+  return [ret1, ret2, stats];
 }
 
 function complete(results) {
@@ -148,8 +168,9 @@ function complete(results) {
     }
   }
 
-  const [rlist, rstats] = map_rows(results.data);
-  rows.value = rlist;
+  const [rlist1, rlist2, rstats] = map_rows(results.data);
+  rows1.value = rlist1;
+  rows2.value = rlist2;
   stats.value = rstats;
 }
 

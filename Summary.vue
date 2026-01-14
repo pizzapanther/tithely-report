@@ -28,6 +28,23 @@
           </tr>
         </tfoot>
       </table>
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2">Fees</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total Fees</td>
+            <td>${{props.stats.fees.toFixed(2)}}</td>
+          </tr>
+          <tr>
+            <td>Fees Covered</td>
+            <td>${{props.stats.covered.toFixed(2)}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div>
       <table>
@@ -38,7 +55,7 @@
         </thead>
         <tbody>
           <tr v-for="(value, fund) in stats.funds">
-            <td>{{fund}}</td>
+            <td class="fund">{{fund}}</td>
             <td>${{value.toFixed(2)}}</td>
           </tr>
         </tbody>
@@ -58,11 +75,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr v-for="c in props.counters">
             <td>
-              <ul>
-                <li v-for="c in props.counters">{{c}}</li>
-              </ul>
+              <hr>
+              {{c}}
+              <br><br>
             </td>
           </tr>
         </tbody>
@@ -76,10 +93,32 @@
 <style scoped>
   .flex {
     font-size: 16px;
-    justify-content: center;
+    justify-content: space-between;
 
     & > div {
-      margin: 0 40px;
+      margin: 0;
     }
+  }
+
+  th {
+    font-weight: bold;
+    padding: 3px 10px !important;
+    font-size: 14px;
+  }
+
+  td {
+    vertical-align: top;
+    font-size: 12px;
+    padding: 3px 10px !important;
+  }
+
+  hr {
+    margin: 50px 0 5px 0;
+    padding: 0;
+    width: 180px;
+  }
+
+  .fund {
+    width: 160px;
   }
 </style>
