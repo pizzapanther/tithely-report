@@ -37,7 +37,7 @@
       github.com/pizzapanther/tithely-report
     </a>
     <br><br>
-    Everything is generated in the browser. So none of you information is stored.
+    Everything is generated in the browser so none of you information is stored.
   </footer>
 </template>
 <script setup>
