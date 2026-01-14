@@ -32,7 +32,7 @@
   <hr>
   <ReportTransactions :col1="rows1" :col2="rows2"/>
   <footer>
-    giving.report contribute at:
+    www.giving.report contribute at:
     <a href="https://github.com/pizzapanther/tithely-report" target="_blank">
       github.com/pizzapanther/tithely-report
     </a>
