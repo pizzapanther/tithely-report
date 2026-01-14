@@ -1,6 +1,6 @@
 <template>
   <div class="header flex">
-    <h1>Service Report</h1>
+    <h1>Giving.Report</h1>
     <div v-if="rdate">{{rdate}}</div>
   </div>
   <form>
