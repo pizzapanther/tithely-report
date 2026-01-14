@@ -56,7 +56,7 @@
 
   td {
     vertical-align: top;
-    font-size: 12px;
+    font-size: 11px;
     padding: 3px 10px !important;
   }
 

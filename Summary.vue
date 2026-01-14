@@ -36,14 +36,20 @@
         </thead>
         <tbody>
           <tr>
-            <td>Total Fees</td>
-            <td>${{props.stats.fees.toFixed(2)}}</td>
-          </tr>
-          <tr>
             <td>Fees Covered</td>
             <td>${{props.stats.covered.toFixed(2)}}</td>
           </tr>
+          <tr>
+            <td>Not Covered</td>
+            <td>${{props.stats.notcovered.toFixed(2)}}</td>
+          </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <th>Total</th>
+            <th>${{props.stats.fees.toFixed(2)}}</th>
+          </tr>
+        </tfoot>
       </table>
     </div>
     <div>
@@ -116,6 +122,8 @@
     margin: 50px 0 5px 0;
     padding: 0;
     width: 180px;
+    border-top-width: 2px;
+    border-top-style: dashed;
   }
 
   .fund {

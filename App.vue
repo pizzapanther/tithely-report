@@ -35,6 +35,7 @@
 <script setup>
 import {ref, onMounted} from 'vue';
 import * as Papa from 'papaparse';
+import { DateTime } from 'luxon';
 
 import ReportSummary from './Summary.vue';
 import ReportTransactions from './Transactions.vue';
@@ -50,21 +51,13 @@ const stats = ref(null);
 const rdate = ref(null);
 const counters = ref([]);
 
-function pad(n) {
-  return String(n).padStart(2, '0');
-}
-
-function dateString(dt) {
-  return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`;
-}
 
 onMounted(() => {
-  const now = new Date();
+  const now = DateTime.now();
   const d = document.getElementById("rdate");
-  d.value = dateString(now);
-  rdate.value = now.toDateString();
+  d.value = now.toISODate();
+  rdate.value = now.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
 });
-
 
 function error (e) {
   alert('Error parsing CSV');
@@ -156,6 +149,8 @@ function map_rows(rows) {
     ret2.push(mapped[k]);
   });
 
+  stats.notcovered = stats.fees - stats.covered;
+
   return [ret1, ret2, stats];
 }
 
@@ -182,8 +177,8 @@ function process() {
 function update() {
   const d = document.getElementById("rdate");
   if (d.value) {
-    const dt = new Date(d.value);
-    rdate.value = dt.toDateString();
+    const dt = DateTime.fromISO(d.value);
+    rdate.value = dt.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
   }
 }
 
