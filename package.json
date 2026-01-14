@@ -17,7 +17,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite --port 7070",
-    "build": "rm -rf docs/* && vite build --outDir docs/"
+    "build": "rm -rf docs/* && vite build --outDir docs/ && cp CNAME docs/"
   },
   "dependencies": {
     "@vitejs/plugin-vue": "^6.0.3",
