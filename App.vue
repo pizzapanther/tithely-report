@@ -31,6 +31,14 @@
   <ReportSummary :stats="stats" :counters="counters"/>
   <hr>
   <ReportTransactions :col1="rows1" :col2="rows2"/>
+  <footer>
+    giving.report contribute at:
+    <a href="https://github.com/pizzapanther/tithely-report" target="_blank">
+      github.com/pizzapanther/tithely-report
+    </a>
+    <br><br>
+    Everything is generated in the browser. So none of you information is stored.
+  </footer>
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';
@@ -203,5 +211,11 @@ function update_counters() {
   .header {
     border-bottom: 2px var(--pico-table-border-color) solid;
     margin-bottom: 15px;
+  }
+
+  footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 12px;
   }
 </style>
