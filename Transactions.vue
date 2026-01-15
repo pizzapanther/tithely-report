@@ -50,14 +50,14 @@
 
   th {
     font-weight: bold;
-    padding: 3px 10px !important;
+    padding: 1px 10px !important;
     font-size: 12px;
   }
 
   td {
     vertical-align: top;
     font-size: 11px;
-    padding: 3px 10px !important;
+    padding: 1px 10px !important;
   }
 
   tbody tr:nth-child(odd) td {

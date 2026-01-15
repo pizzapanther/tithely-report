@@ -213,6 +213,10 @@ function update_counters() {
     margin-bottom: 15px;
   }
 
+  hr {
+    margin-top: 0;
+  }
+
   footer {
     margin-top: 40px;
     text-align: center;

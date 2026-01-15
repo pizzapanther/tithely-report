@@ -106,10 +106,14 @@
     }
   }
 
+  table {
+    margin-bottom: 10px;
+  }
+
   th {
     font-weight: bold;
     padding: 3px 10px !important;
-    font-size: 14px;
+    font-size: 12px;
   }
 
   td {
