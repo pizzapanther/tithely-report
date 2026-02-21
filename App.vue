@@ -22,7 +22,7 @@
         <br>
         <span class="help">
           <strong>Required Fields:</strong> Net Amount, Name, Fees, Status,
-          Covered Fees, Fund Name, Payment Type, Check #
+          Covered Fees, Fund Name, Payment Type, Check #, Memo
         </span>
         <input id="csv_file" type="file" name="csv" placeholder="CSV" accept=".csv" v-on:change="process()"/>
       </label>
@@ -50,7 +50,7 @@ import ReportTransactions from './Transactions.vue';
 
 const REQUIRED_FIELDS = [
   'Currency Code', 'First Name', 'Last Name', 'Net Amount',
-  'Fees', 'Status', 'Covered Fees', 'Fund Name', 'Payment Type', 'Check #'
+  'Fees', 'Status', 'Covered Fees', 'Fund Name', 'Payment Type', 'Check #', 'Memo'
 ];
 
 const rows1 = ref(null);
@@ -84,6 +84,7 @@ function map_rows(rows) {
     covered: 0,
     total: 0,
     funds: {},
+    groups: {},
   };
 
   for (let i=0; i < data.length; i++) {
@@ -118,6 +119,12 @@ function map_rows(rows) {
         stats.funds[row['Fund Name']] += row['Net Amount'];
       } else {
         stats.funds[row['Fund Name']] = row['Net Amount'];
+      }
+
+      if (stats.groups?.[row['Memo'].toLowerCase()]) {
+        stats.groups[row['Memo'].toLowerCase()] += row['Net Amount'];
+      } else {
+        stats.groups[row['Memo'].toLowerCase()] = row['Net Amount'];
       }
 
       const key = `${row['Last Name']}, ${row['First Name']} ${row['Payment Type']} ${row['Check #']}`;

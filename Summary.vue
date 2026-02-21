@@ -28,28 +28,18 @@
           </tr>
         </tfoot>
       </table>
-      <table>
+      <table v-if="Object.keys(stats.groups).length > 1" class="mtop">
         <thead>
           <tr>
-            <th colspan="2">Fees</th>
+            <th colspan="2">Groups</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Fees Covered</td>
-            <td>${{props.stats.covered.toFixed(2)}}</td>
-          </tr>
-          <tr>
-            <td>Not Covered</td>
-            <td>${{props.stats.notcovered.toFixed(2)}}</td>
+          <tr v-for="(value, group) in stats.groups">
+            <td class="fund">{{group || 'None'}}</td>
+            <td>${{value.toFixed(2)}}</td>
           </tr>
         </tbody>
-        <tfoot>
-          <tr>
-            <th>Total</th>
-            <th>${{props.stats.fees.toFixed(2)}}</th>
-          </tr>
-        </tfoot>
       </table>
     </div>
     <div>
@@ -83,12 +73,33 @@
         <tbody>
           <tr v-for="c in props.counters">
             <td>
-              <hr>
               {{c}}
-              <br><br>
             </td>
           </tr>
         </tbody>
+      </table>
+      <table class="mtop">
+        <thead>
+          <tr>
+            <th colspan="2">Fees</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fees Covered</td>
+            <td>${{props.stats.covered.toFixed(2)}}</td>
+          </tr>
+          <tr>
+            <td>Not Covered</td>
+            <td>${{props.stats.notcovered.toFixed(2)}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Total</th>
+            <th>${{props.stats.fees.toFixed(2)}}</th>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>
@@ -114,6 +125,7 @@
     font-weight: bold;
     padding: 3px 10px !important;
     font-size: 12px;
+    border-top: var(--pico-border-width) solid var(--pico-table-border-color);
   }
 
   td {
@@ -122,15 +134,12 @@
     padding: 3px 10px !important;
   }
 
-  hr {
-    margin: 50px 0 5px 0;
-    padding: 0;
-    width: 180px;
-    border-top-width: 2px;
-    border-top-style: dashed;
-  }
-
   .fund {
     width: 160px;
+    text-transform: capitalize;
+  }
+
+  .mtop {
+    margin-top: 20px;
   }
 </style>
