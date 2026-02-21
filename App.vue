@@ -121,10 +121,18 @@ function map_rows(rows) {
         stats.funds[row['Fund Name']] = row['Net Amount'];
       }
 
-      if (stats.groups?.[row['Memo'].toLowerCase()]) {
-        stats.groups[row['Memo'].toLowerCase()] += row['Net Amount'];
+      const gkey = row['Memo'].toLowerCase();
+      if (stats.groups?.[gkey]) {} else {
+        stats.groups[gkey] = {cash: 0, check: 0, online: 0, total: 0};
+      }
+
+      stats.groups[gkey].total += row['Net Amount'];
+      if (row['Payment Type'] === 'cash') {
+        stats.groups[gkey].cash += row['Net Amount'];
+      } else if (row['Payment Type'] === 'check') {
+        stats.groups[gkey].check += row['Net Amount'];
       } else {
-        stats.groups[row['Memo'].toLowerCase()] = row['Net Amount'];
+        stats.groups[gkey].online += row['Net Amount'];
       }
 
       const key = `${row['Last Name']}, ${row['First Name']} ${row['Payment Type']} ${row['Check #']}`;

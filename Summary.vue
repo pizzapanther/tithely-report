@@ -36,8 +36,13 @@
         </thead>
         <tbody>
           <tr v-for="(value, group) in stats.groups">
-            <td class="fund">{{group || 'None'}}</td>
-            <td>${{value.toFixed(2)}}</td>
+            <td class="fund">{{group || 'Not Grouped'}}</td>
+            <td>
+              <div v-if="value.cash">Cash: ${{value.cash.toFixed(2)}}</div>
+              <div v-if="value.check">Check: ${{value.check.toFixed(2)}}</div>
+              <div v-if="value.online">Online: ${{value.online.toFixed(2)}}</div>
+              <div><strong>Total: ${{value.total.toFixed(2)}}</strong></div>
+            </td>
           </tr>
         </tbody>
       </table>
