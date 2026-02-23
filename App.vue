@@ -96,8 +96,10 @@ function map_rows(rows) {
       row[key] = d[j];
     }
 
+    console.log(row['Net Amount'], row['First Name']);
     if (row['Net Amount']) {
-      row['Net Amount'] = parseFloat(row['Net Amount']);
+      row['Net Amount'] = parseFloat(row['Net Amount'].replace(',', ''));
+      console.log(row['Net Amount'], row['First Name']);
       row['fullname'] = `${row['Last Name']}, ${row['First Name']}`;
 
       stats.fees +=  parseFloat(row['Fees']);
