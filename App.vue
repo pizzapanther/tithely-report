@@ -73,7 +73,6 @@ function error (e) {
 }
 
 function net_amount(row) {
-  console.log(row);
   if (row['Covered Fees']) {
     return row['Net Amount'];
   }
@@ -154,7 +153,7 @@ function map_rows(rows) {
           mapped[key]['cats'][row['Fund Name']] = row['Net Amount'];
         }
 
-        mapped[key]['total'] += net_amount(row);
+        mapped[key]['total'] += row['Net Amount'];
       } else {
         row['cats'] = {}
         row['cats'][row['Fund Name']] = row['Net Amount'];
