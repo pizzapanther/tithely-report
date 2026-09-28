@@ -72,6 +72,15 @@ function error (e) {
   console.error(e);
 }
 
+function net_amount(row) {
+  console.log(row);
+  if (row['Covered Fees']) {
+    return row['Net Amount'];
+  }
+
+  return row['Amount'];
+}
+
 function map_rows(rows) {
   const headers = rows[0];
   let data = rows.slice(1);
@@ -96,10 +105,9 @@ function map_rows(rows) {
       row[key] = d[j];
     }
 
-    console.log(row['Net Amount'], row['First Name']);
     if (row['Net Amount']) {
       row['Net Amount'] = parseFloat(row['Net Amount'].replace(',', ''));
-      console.log(row['Net Amount'], row['First Name']);
+      row['Amount'] = parseFloat(row['Amount'].replace(',', ''));
       row['fullname'] = `${row['Last Name']}, ${row['First Name']}`;
 
       stats.fees +=  parseFloat(row['Fees']);
@@ -146,11 +154,11 @@ function map_rows(rows) {
           mapped[key]['cats'][row['Fund Name']] = row['Net Amount'];
         }
 
-        mapped[key]['total'] += row['Net Amount'];
+        mapped[key]['total'] += net_amount(row);
       } else {
         row['cats'] = {}
         row['cats'][row['Fund Name']] = row['Net Amount'];
-        row['total'] = row['Net Amount'];
+        row['total'] = net_amount(row);
         mapped[key] = row;
       }
     }
